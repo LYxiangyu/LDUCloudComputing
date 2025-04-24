@@ -4,7 +4,6 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.Connection;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -13,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class App {
+public class HbaseApp {
     static Configuration conf = HBaseConfiguration.create();
     static Connection connection;
     static String table_name = "student_sports";
@@ -23,10 +22,10 @@ public class App {
 
     public static void main(String[] args) {
         try {
-            App.getConnect();
-            App.createTable(table_name);
-            App.addData(table_name);
-            App.getAllRecord(table_name);
+            HbaseApp.getConnect();
+            HbaseApp.createTable(table_name);
+            HbaseApp.addData(table_name);
+            HbaseApp.getAllRecord(table_name);
         } catch (Exception e) {
             e.printStackTrace();
         }

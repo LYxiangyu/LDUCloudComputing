@@ -14,6 +14,7 @@ import org.apache.spark.sql.types.StructType;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 
 public class UserBehaviorAnalysis {
@@ -77,6 +78,24 @@ public class UserBehaviorAnalysis {
         });
 
         Dataset<Row> logDF = spark.createDataFrame(rowRDD, schema);
+
+        // === 写入 MySQL 数据库 ===
+        String url = "jdbc:mysql://20.33.32.192:3306/spark?useSSL=false&serverTimezone=UTC";
+        String table = "user_behavior"; // 你想要存的表名
+        String user = "root"; // 你的MySQL用户名
+        String password = "123456"; // 你的MySQL密码
+
+        Properties connectionProperties = new Properties();
+        connectionProperties.put("user", user);
+        connectionProperties.put("password", password);
+        connectionProperties.put("driver", "com.mysql.cj.jdbc.Driver");
+
+        // 将DataFrame写入MySQL
+        logDF.write()
+                .mode(SaveMode.Overwrite) // 如果表存在，覆盖
+                .jdbc(url, table, connectionProperties);
+
+        System.out.println("日志数据已保存到 MySQL 数据库表: " + table);
 
         // 分析1: 统计每个用户的浏览次数(pv)
         Dataset<Row> pvCountDF = logDF.filter("behavior_type = 'pv'")

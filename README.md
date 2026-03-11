@@ -6,4 +6,5 @@
 - IDEA Ultimate 自带的相关Maven、Big Data Tools 插件、数据库插件等
 - POM 文件
 ## 注意事项
+部分依赖可能发生改变，请自行前往[Maven官方仓库](https://mvnrepository.com/)更换 POM 文件
 如果发生改变需要改动，欢迎提交pr。
